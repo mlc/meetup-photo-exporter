@@ -1,0 +1,20 @@
+!!!
+%html{:lang => 'en'}
+  %head
+    %meta{:charset => "UTF-8"}
+    %title Meetup Photo Exporter
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/meetstrap.css"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/sandbox.css"}
+  /[if lt IE 7 ] <body class="ie6">
+  /[if IE 7 ] <body class="ie7">
+  /[if IE 8 ] <body class="ie8">
+  /[if IE 9 ] <body class="ie9">
+  / [if (gt IE 9)|!(IE)]><!
+  %body
+    / <![endif]
+    .header
+      .wrap
+
+    .wrap.line
+      .doc-box.doc-content
+        = yield
