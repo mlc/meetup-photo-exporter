@@ -7,3 +7,4 @@ gem 'omniauth'
 gem 'omniauth-meetup'
 gem 'rdiscount'
 gem 'couchrest'
+gem 'sinatra-support', require: "sinatra/support"

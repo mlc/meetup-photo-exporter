@@ -6,4 +6,7 @@
     Logged in as
     %code&= @user.to_json
 - else
-  %p <a href="/auth/meetup">Log in with Meetup</a>
+  %p<
+    %a{href: "/auth/meetup"}<
+      %button.zocial.meetup<
+        %span Log in with Meetup

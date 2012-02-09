@@ -3,8 +3,9 @@
   %head
     %meta{:charset => "UTF-8"}
     %title Meetup Photo Exporter
-    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/meetstrap.css"}
-    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/sandbox.css"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/meetstrap.css?#{css_mtime_for('app/css/meetstrap.css')}"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/sandbox.css?#{css_mtime_for('app/css/sandbox.css')}"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/zocial.css?#{css_mtime_for('app/css/zocial.css')}"}
   /[if lt IE 7 ] <body class="ie6">
   /[if IE 7 ] <body class="ie7">
   /[if IE 8 ] <body class="ie8">
