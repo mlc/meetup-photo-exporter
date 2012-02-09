@@ -1,0 +1,205 @@
+/**
+* FORMS
+* all form defaults and modifiers, to be included in foundation.scss
+*/
+
+/* {{{ first, some normalization */
+button, input, select, textarea {
+	vertical-align: baseline;
+	*vertical-align: middle;
+	-webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box; 
+}
+button, input {
+	line-height: normal;
+	*overflow: visible;
+}
+button::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="reset"]::-moz-focus-inner {         
+	padding: 0 !important;         
+	border: 0 none !important;     
+}
+button, input[type=button], input[type=reset], input[type=submit] {
+	cursor: pointer;
+	*cursor: hand;
+	-webkit-appearance: button;
+}
+textarea {
+	overflow: auto;
+	vertical-align: top;
+}
+/* }}} */
+
+fieldset { /* group like-fields together under headings (legends) with this! */
+	border-width: 0;
+	padding: $spacing/2.5 $spacing 0 $spacing;
+	border-bottom: 1px solid $C_line;
+	border-top: 1px solid $C_line;
+	position: relative;
+	margin-top: 2.25em;
+	background: $C_shade;
+	legend {
+		display: block;
+		font-size: $baseFontSize * 1.25;
+		line-height: 1; 
+		color: $C_text; 
+		*line-height: 1.5; /* IE7 */
+		margin-bottom: 0;
+		position: absolute;
+		top: -1.75em;
+		left: -$spacing;
+	}
+}
+
+input, select, textarea {
+	font-family: $baseFontStack;
+	display: block;
+	line-height: $baseline;
+	padding: $baseline/4;
+	font-size: $baseFontSize;
+	width: 100%;
+	margin-bottom: $spacing;
+	color: $C_text;
+	border: 1px solid $C_line;
+	@include round($defaultRadius/2);
+}
+
+
+/* start with horizontal, inline type labels as default */
+label {
+	font-size: $baseFontSize * 1.25;
+	color: $C_text;
+	display: block;
+	&.small {
+		font-size: $baseFontSize;	
+	}
+}
+
+/* radios and checkboxes */
+input[type=checkbox], input[type=radio] {
+	font-size: $baseFontSize * 1.25;
+	display: inline;
+	cursor: pointer;
+	width: auto;
+	height: auto;
+	padding: 0;
+	margin: 3px 0;
+	*margin-top: 0; /* IE7 */
+	line-height: normal;
+	border: none;
+}
+
+/* select and file input height tweaking */
+select, input[type=file] {
+	height: $baseline*1.75;
+	*height: auto;
+	line-height: $baseline*2;
+	*margin-top: 4px; /* IE7 - helps alignment with inline-style labels */
+}
+
+select[multiple] {
+	height: inherit;
+	background-color: #fff;
+}
+
+input[type=file] {
+	background-color: #fff;
+	padding: initial;
+	border: initial;
+	line-height: initial;
+}
+
+input[type=file] {
+	height: $baseline;
+	*height: auto; /* IE7 */
+	line-height: $baseline * 1.5;
+	*margin-top: 4px;
+}
+
+textarea {
+	height: auto;
+}
+
+/** 
+* Focus states
+* applies box shadow in normal state;
+* declares transition for any border & box shadow changes (set below in focus)
+*/
+input, textarea {
+	/*transition*/
+	-webkit-transition: border linear 0.1s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.1s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.1s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.1s, box-shadow linear 0.2s;
+	transition: border linear 0.1s, box-shadow linear 0.2s;
+
+	/*default state*/
+	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+
+	/*focus border & outline*/
+	&:focus {
+		outline: 0;	
+		border-color: $C_darkblue;
+		-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.333), 0 0 6px transparentize( $C_darkblue, 0.5);
+		-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.333), 0 0 6px transparentize( $C_darkblue, 0.5);
+		box-shadow: inset 0 1px 3px rgba(0,0,0,0.333), 0 0 6px transparentize( $C_darkblue, 0.5);
+	}
+}
+
+
+/* {{{ Button defaults */
+@mixin button_color($base_color){
+	@include gradient($base_color, darken($base_color, 10%));
+	text-shadow: mix(#000000, $base_color, 20%) -1px -1px 0;
+	@include box-shadow(mix(#ffffff, $base_color, 30%), 1px, 1px, 0, 0, true);
+	border: 1px solid darken($base_color, 20%);
+	&:hover {
+		$lighter_base_color: lighten($base_color, 5%);
+		$darker: darken($base_color, 10%);
+		@include gradient($lighter_base_color, $darker);
+	}
+	&:active {
+		background: darken($base_color, 10%);
+		@include box-shadow(mix(#000000, $base_color, 40%), 1px, 1px, 0, 0, true);
+	}
+}
+
+input[type=submit], button, .button{
+	@include button_color($C_gray);
+	display: inline-block;
+	text-decoration: none!important;
+	text-align: center;
+	cursor: pointer;
+	zoom: 1;
+	color: #fff!important;
+	font-weight: bold;
+	font-family: helvetica, arial, sans-serif;
+	@include round($defaultRadius/2);
+	line-height: 1;
+	font-size: 16px;
+	padding: .5em 0.75em .4em;
+	vertical-align: middle;
+	height: auto;
+	width: auto;
+	margin-bottom: $spacing;
+
+	/* primary action variant */
+	&.primary{
+		@include button_color($C_red);
+	}
+}
+
+/* }}} */
+
+/* {{{ Feedback/Error states */
+input.error, select.error, textarea.error {
+	background-color: $C_warnBg;
+	border-color: $C_warnText;
+	margin-bottom: 0;
+}
+.fieldError {
+	color: $C_warnText;
+}
+/* }}} */

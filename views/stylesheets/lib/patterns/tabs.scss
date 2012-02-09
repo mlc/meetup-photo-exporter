@@ -1,0 +1,55 @@
+/**
+* Tabs Pattern
+*/
+
+$tabSpacing: $spacing/2;
+
+.nav-tabs {
+	padding-top: $tabSpacing;
+	padding-left: $tabSpacing;
+	border-bottom: 1px solid $C_line;
+	list-style: none;
+	@include clearfix;
+	li {
+		float: left;
+		padding: 0;
+		margin-right: $tabSpacing;
+		margin-bottom: -1px;
+	}
+	a {
+		display: block;
+		text-decoration: none;
+		color: #111;
+		background-color: $C_gray_lighter;	
+		padding: 6px 12px;
+		@include opacity(0.65);
+		&:focus {
+			outline-width: 0;
+			border-width: 0;
+		}
+		img { /*calendar icon*/
+			margin-top: -5px;
+		}
+	}
+	.selected {
+		a {
+			@include opacity(1);
+			border: 1px solid #ccc;
+			border-bottom-width: 0;
+			background-color: #fff;
+		}
+	}
+	.tabcount {
+		color: #888;
+	}
+}
+
+/**
+* override for ghome
+* tabs sit on border of ajax-contaner
+* allows border to span the whole D_box
+*/
+#lma .tabsNav {
+	border-bottom: 0px; 
+	background-color: #E9EBE5;
+}

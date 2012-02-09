@@ -1,0 +1,284 @@
+/**
+* FOUNDATION
+* base element and typography rules
+*/
+@import "config/mixins.scss";
+@import "config/variables.scss";
+
+html {
+	overflow-y: scroll;
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+html, body {
+	font-size: $baseFontSize;
+	color: $C_text;
+	line-height: 1.5;
+	margin: 0;
+	padding: 0;
+}
+body, button, input, select, textarea {
+	font-family: $baseFontStack;
+}
+
+
+/* {{{ Inline tag defaults */
+abbr, strong, acronym, span, small, time, strike, sub, sup, code, a {
+	display: inline;
+	font-family: inherit;
+}
+abbr, acronym {
+	border-width: 0;	
+}
+b,strong { font-weight: bold; }
+i,em     { font-weight: normal; }
+sup, sub {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+small { font-size: 11px; }
+/* }}} */
+
+
+/* {{{ Block tag defaults */
+p,ul,ol,li
+blockquote, form, fieldset, legend,
+table, dl,dd,
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+	margin: 0;
+	padding: 0;
+	margin-bottom: $spacing;
+	font-family: inherit;
+}
+form, legend {
+	margin-bottom: 0;
+}
+img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	&.resample { /* assuming we're sizing an img down on the client */
+		-ms-interpolation-mode: bicubic; 
+		image-rendering: optimizeQuality;
+	}
+}
+
+ul, ol {
+	list-style-position: inside;
+}
+/* }}} */
+
+/* {{{ HTML5 element defaults (for when the time comes) */
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+	display: block;
+}
+audio, canvas, video {
+	display: inline-block;
+	@include inlineblock();
+}
+/* }}} */
+
+/* {{{ Link defaults */
+a:link, a:visited {
+	text-decoration: none;	
+	color: $C_link;
+}
+a:hover, a:active {
+	text-decoration: none;	
+	color: $C_link;
+}
+/* }}} */
+
+/* {{{ Headings */
+h1,h2,h3,h4,h5,h6 {
+	font-family: $headingFontStack;	
+	font-weight: normal;
+	color: $C_text_headline;
+	margin: 0;
+	padding: 0;
+	padding-bottom: $baseline/2.5;
+	line-height: 1.1;
+}
+h1 { 
+	font-weight: bold; 
+	font-size: 2.5em; 
+	letter-spacing: -0.75px; 
+}
+h2 { 
+	font-weight: bold; 
+	font-size: 2em; 
+	letter-spacing: -0.5px; 
+}
+h3 { 
+	font-weight: bold;
+	font-size: 1.6666em; 
+}
+h4 { font-weight: normal; font-size: 1.5em; }
+h5 { font-weight: normal; font-size: 1.25em; }
+h6 { font-weight: bold; font-size: 1em; } /* probably won't use it, but it's in the html spec, so worth defining a default */
+/* }}} */
+
+/* {{{ Forms */
+@import "lib/forms.scss";
+/* }}} */
+
+/* {{{ Tables */
+
+/* default */
+table {
+	width: 100%;
+	font-size: $baseFontSize;
+	border-collapse: collapse;
+}
+caption, td, th { 
+	padding: $baseline/2;
+	line-height: $baseline;
+	text-align: left;
+}
+caption {
+	vertical-align: middle;
+	padding-left: 0;
+}
+th {
+	font-weight: bold;
+	vertical-align: middle;
+}
+td, tbody th {
+	vertical-align: top;
+	border-top: 1px solid $C_line;
+}
+
+/* borderd */
+.borderedTable {
+	border: 1px solid $C_line;
+	th + th, td + td, th + td {
+		border-left: 1px solid $C_line; 
+	}
+}
+
+/* striped */
+.stripedTable {
+	tbody {
+		tr:nth-child(odd) td,
+		tr:nth-child(odd) th {
+			background-color: $C_gray_lightest;		
+		}
+	}
+}
+
+/* }}} */
+
+/* {{{ Typography modifiers */
+.small, small {
+	font-size: 0.85em;
+}
+.leading-top { 
+	padding-top: $spacing; 
+}
+.leading-bottom { 
+	padding-bottom: $spacing; 
+}
+.margin-top { 
+	margin-top: $spacing; 
+}
+.margin-bottom { 
+	margin-bottom: $spacing; 
+}
+.margin-none {
+	margin: 0;
+}
+.padding-none {
+	padding: 0;
+}
+.align-right {
+	text-align: right;
+}
+.align-left {
+	text-align: left;
+}
+.align-center {
+	text-align: center;
+}
+.display-none {
+	display: none;
+}
+.hidden {
+	display: hidden;
+}
+.block {
+	display: block;
+}
+.inline {
+	display: inline;
+}
+.muted {
+	color: $C_text_less;
+}
+.opacity-quarter {
+	@include opacity(.25);
+}
+.border-none {
+	border-width: 0 !important;
+}
+
+/* List modifiers */
+.resetList {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.inlineList > li, .pipeList > li, .crumbList > li {
+	display: inline;
+	list-style: none;
+}
+.pipeList > li {
+	margin-right: 0.5em;
+	padding-right: 0.5em;
+	border-right: 1px solid;
+	&:last-child, &.last {
+		border-right-width: 0;	
+	}
+}
+.crumbList > li {
+	margin-right: 0.75em;
+	&:after {
+		content: '>';
+		margin-left: 0.75em;
+	}
+	&:last-child:after, &.last:after {
+		margin-left: 0;	
+		content: '';
+	}
+}
+
+
+
+.dividedList, .paddedList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	& > li {
+		margin: 0;
+		padding: $spacing $spacing 0;
+		border-top: 1px solid $C_line_less;
+	}
+}
+.paddedList > li {
+	padding: $spacing/2 0 0 0;
+	border-width: 0;
+}
+.doc-content > .dividedList > li{
+	padding-left: 0;
+	padding-right: 0;
+}
+/* }}} */
+
+/* {{{ import other frameworks components (from least specific selectors to most) */
+@import "lib/layout.scss";
+@import "lib/patterns.scss";
+/* }}} */

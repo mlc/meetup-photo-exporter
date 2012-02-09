@@ -1,0 +1,61 @@
+/**
+* FigureSet Pattern
+* 
+* floated image with descriptive text
+*/
+
+.figureSet, .figureSet-right {
+    *zoom: 1; 
+    &:after {
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: ".";
+      clear: both;
+      height: 0; 
+    }
+}
+
+
+/* {{{ Standard figureSet - adaptable width for figure and description */
+.figureSet {
+    .figureSet-figure, .figureSet-description {
+        display: table-cell;
+        vertical-align: top;
+    }
+    .figureSet-description {
+        width: auto;
+        padding-left: $spacing;
+        min-width: 99%; /* it's ok, with table-cell */
+    }
+}
+/* }}} */
+
+
+/* {{{ Right side figure (description width is NOT adaptable) */
+.figureSet-right {
+    .figureSet-figure {
+        float: right;
+    }
+    .figureSet-description {
+        float: left;
+        padding-right: $spacing;
+        padding-left: 0;
+        min-width: 70%;
+        width: 70%;
+    }
+}
+/* }}} */
+
+/* {{{ Standard figureSet in NOT adaptable width for stupid browsers */
+.ie6 .figureSet, .ie7 .figureSet {
+	.figureSet-figure, 
+    .figureSet-description {
+		float: left;
+	}
+    .figureSet-description {
+        min-width: 75%;
+        width: 75%;
+    } 
+}
+/* }}} */
