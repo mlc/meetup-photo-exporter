@@ -2,6 +2,10 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.6)
+    couchrest (1.1.2)
+      mime-types (~> 1.15)
+      multi_json (~> 1.0.0)
+      rest-client (~> 1.6.1)
     daemons (1.1.8)
     eventmachine (0.12.10)
     faraday (0.7.6)
@@ -46,11 +50,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  couchrest
   haml
   omniauth
   omniauth-meetup
   rdiscount
-  rest-client
   sass
   sinatra (= 1.3.2)
   thin
