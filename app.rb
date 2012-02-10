@@ -3,11 +3,17 @@ require 'bundler'
 
 Bundler.require
 
+require './lib/meetup'
+
 class App < Sinatra::Base
   set :app_file, __FILE__
   set :root, File.dirname(__FILE__)
   set :views, "views"
   set :public_folder, 'static'
+
+  configure :development do
+    register Sinatra::Reloader
+  end
 
   Encoding.default_external = 'utf-8'
 
@@ -34,21 +40,32 @@ class App < Sinatra::Base
     request.session_options[:skip] = true
   end
 
-  before do
+  def set_user
     @user_id = session[:user_id]
     unless @user_id.nil?
       @user = DB.get(@user_id) rescue nil
     end
+    if @user && @user["credentials"]["expires_at"] && @user["credentials"]["expires_at"] < Time.now.to_i
+      mup = Meetup.new(ENV['MEETUP_KEY'], ENV['MEETUP_SECRET'])
+      begin
+        creds = mup.exchange_token(@user["credentials"]["refresh_token"])
+        if creds["expires_in"] && !creds["expires_at"]
+          creds["expires_at"] = Time.now.to_i + creds["expires_in"]
+        end
+        @user["credentials"] = creds
+        DB.save_doc(@user)
+      rescue
+        @user = nil
+      end
+    end
   end
 
-  #get '/stylesheets/:name.css' do
-  #  skip_session
-  #  response['Cache-Control'] = 'public, max-age=7200'
-  #  content_type 'text/css', :charset => 'utf-8'
-  #  scss :"stylesheets/#{params[:name]}", :layout => false, :style => :compact
-  #end
-
   get '/' do
+    set_user
+    if @user
+      @photos = Meetup.new(ENV['MEETUP_KEY'], ENV['MEETUP_SECRET'], @user['credentials']).get('/2/photos', member_id: 'self')
+    end
+    $stderr.puts @photos.to_json
     haml :index, :format => :html5
   end
 
