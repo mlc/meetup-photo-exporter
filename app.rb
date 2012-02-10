@@ -63,9 +63,8 @@ class App < Sinatra::Base
   get '/' do
     set_user
     if @user
-      @photos = Meetup.new(ENV['MEETUP_KEY'], ENV['MEETUP_SECRET'], @user['credentials']).get('/2/photos', member_id: 'self')
+      @photos = make_client.get('/2/photos', member_id: 'self')["results"]
     end
-    $stderr.puts @photos.to_json
     haml :index, :format => :html5
   end
 
@@ -85,5 +84,10 @@ class App < Sinatra::Base
 
   get '/auth/:service/callback' do
     # something useful
+  end
+
+  private
+  def make_client
+    Meetup.new(ENV['MEETUP_KEY'], ENV['MEETUP_SECRET'], @user['credentials'])
   end
 end

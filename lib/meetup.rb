@@ -30,10 +30,10 @@ class Meetup
 
   def get(url, params = nil)
     client = make_client
-    response = client.get(url, :params => params)
+    response = client.get(url, :params => params.merge({access_token: @token}), :headers => {"Accept-Charset" => "utf-8"})
     pp(response)
     raise "boo. #{response.status} getting #{url}" unless (200..206).include?(response.status)
-    response.body
+    JSON.parse(response.body)
   end
 
   private
