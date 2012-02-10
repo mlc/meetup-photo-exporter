@@ -21,3 +21,4 @@ module Service
 end
 
 require File.join(File.dirname(__FILE__), 'service/flickr')
+require File.join(File.dirname(__FILE__), 'service/facebook')

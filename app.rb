@@ -125,7 +125,7 @@ class App < Sinatra::Base
   get '/auth/:service/callback' do
     set_user
     auth = request.env['omniauth.auth']
-    pp auth
+    # pp auth
     @user["services"] ||= {}
     @user["services"][params[:service]] = auth.credentials
     DB.save_doc(@user)
