@@ -11,6 +11,8 @@ module Service
           Service::Flickr
         when "facebook"
           Service::Facebook
+        when "dropbox"
+          Service::Dropbox
         else
           raise "unknown service #{svc}"
       end
@@ -22,3 +24,4 @@ end
 
 require File.join(File.dirname(__FILE__), 'service/flickr')
 require File.join(File.dirname(__FILE__), 'service/facebook')
+require File.join(File.dirname(__FILE__), 'service/dropbox')

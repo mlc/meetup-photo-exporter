@@ -23,6 +23,7 @@ class App < Sinatra::Base
     provider :meetup, ENV['MEETUP_KEY'], ENV['MEETUP_SECRET']
     provider :flickr, ENV['FLICKR_KEY'], ENV['FLICKR_SECRET'], scope: 'write'
     provider :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET'], scope: 'user_photos,publish_stream', display: 'page'
+    provider :dropbox, ENV['DROPBOX_KEY'], ENV['DROPBOX_SECRET']
   end
 
   register Sinatra::CssSupport
@@ -37,13 +38,17 @@ class App < Sinatra::Base
       :load_paths => [ File.join(File.dirname(__FILE__), 'app/css') ]
     }
     m.set :scss, self.scss.merge(:style => :compressed) if m.production?
+
+    Dropbox::API::Config.app_key    = ENV['DROPBOX_KEY']
+    Dropbox::API::Config.app_secret = ENV['DROPBOX_SECRET']
+    Dropbox::API::Config.mode       = "sandbox"
   end
 
   couch = CouchRest.new(ENV['CLOUDANT_URL'])
   DB = couch.database('users')
   DB.create!
 
-  ALL_SERVICES = ["flickr", "facebook"]
+  ALL_SERVICES = ["flickr", "facebook", "dropbox"]
 
   helpers do
     def stylesheet(sheet)
@@ -125,7 +130,7 @@ class App < Sinatra::Base
   get '/auth/:service/callback' do
     set_user
     auth = request.env['omniauth.auth']
-    # pp auth
+    pp auth
     @user["services"] ||= {}
     @user["services"][params[:service]] = auth.credentials
     DB.save_doc(@user)
