@@ -16,3 +16,4 @@ gem 'sinatra-support', require: "sinatra/support"
 gem 'sinatra-flash', require: 'sinatra/flash'
 gem 'faraday_middleware'
 gem 'flickr_oauth'
+gem 'curb'

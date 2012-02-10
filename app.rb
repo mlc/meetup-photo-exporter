@@ -135,7 +135,31 @@ class App < Sinatra::Base
 
   post '/photos' do
     set_user
-    flash[:message] = "Your photos have been queued for upload."
+    if params[:services].nil? || params[:services].empty?
+      flash[:message] = "Can't upload! You must select at least one service to upload to."
+    elsif params[:photo].nil? || params[:photo].empty?
+      flash[:message] = "Can't upload! You must select at least one photo."
+    else
+      clients = params[:services].keys.map{|svc| Service.get(svc, @user)}
+      mup = make_client
+      photos = mup.get('/2/photos', photo_id: params[:photo].keys.join(','))["results"]
+      curb = Curl::Easy.new
+      photos.each do |photo|
+        file = Tempfile.new(['mup-photo', File.extname(photo["highres_link"])])
+        begin
+          curb.url = photo["highres_link"]
+          curb.on_body do |data|
+            file.write(data)
+          end
+          curb.perform
+          file.close
+          clients.each {|cli| cli.upload(file.path, photo["caption"])}
+        ensure
+          file.close!
+        end
+      end
+      flash[:message] = "Your photos have been uploaded!"
+    end
     redirect to('/')
   end
 
