@@ -1,4 +1,5 @@
 %form{action: "/photos", method: "post"}
+  %p Choose one or more photos:
   .gallery
     .spacer &nbsp;
     - @photos.each do |photo|
@@ -7,4 +8,12 @@
           %img{src: photo["thumb_link"], alt: photo["caption"]}
         %input{type: 'checkbox', name: "photo_#{photo["photo_id"]}", value: 1}
     .spacer &nbsp;
+  %p
+    Choose one or more services to copy to:
+    %br
+    - @services.keys.each do |service|
+      %label.zocial.icon{for: "service_#{service}", class: service}<
+        %span= service
+      %input{type: 'checkbox', name: "service_#{service}", id: "service_#{service}", value: 1}
+      &nbsp;&nbsp;
   %input.primary{type: "submit", value: "Copy!"}

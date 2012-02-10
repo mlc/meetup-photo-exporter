@@ -33,7 +33,7 @@ class Meetup
     response = client.get(url, :params => params.merge({access_token: @token}), :headers => {"Accept-Charset" => "utf-8"})
     #pp(response)
     raise "boo. #{response.status} getting #{url}" unless (200..206).include?(response.status)
-    JSON.parse(response.body)
+    MultiJson.decode(response.body)
   end
 
   private

@@ -4,6 +4,7 @@ require 'bundler'
 Bundler.require
 
 require './lib/meetup'
+require './lib/service'
 
 class App < Sinatra::Base
   set :app_file, __FILE__
@@ -28,6 +29,8 @@ class App < Sinatra::Base
   serve_css '/stylesheets', from: "./app/css"
   register Sinatra::JsSupport
   serve_js '/js', from: "./app/js"
+
+  register Sinatra::Flash
 
   configure do |m|
     m.set :scss, {
@@ -118,6 +121,7 @@ class App < Sinatra::Base
     redirect to('/')
   end
 
+  # other services just copy the credentials into the db
   get '/auth/:service/callback' do
     set_user
     auth = request.env['omniauth.auth']
@@ -126,6 +130,12 @@ class App < Sinatra::Base
     @user["services"][params[:service]] = auth.credentials
     DB.save_doc(@user)
 
+    redirect to('/')
+  end
+
+  post '/photos' do
+    set_user
+    flash[:message] = "Your photos have been queued for upload."
     redirect to('/')
   end
 

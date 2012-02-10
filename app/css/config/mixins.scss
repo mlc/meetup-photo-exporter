@@ -3,12 +3,6 @@
 * Sass mixins (including compass mixins)
 */
 
-@function imgUrl($url) {
-	$secure: unquote(getParam("secure","//img1.dev.meetupstatic.com"));
-	$img: unquote($url);
-	@return quote(#{$secure}$img);
-}
-
 @mixin round($nw, $ne: $nw, $se: $nw, $sw: $nw){
   -moz-border-radius: $nw $ne $se $sw;
   -webkit-border-radius: $nw $ne $se $sw;
