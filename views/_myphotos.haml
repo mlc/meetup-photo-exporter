@@ -1,4 +1,9 @@
-%ul
-  - @photos.each do |photo|
-    %li<
-      %img{src: photo["thumb_link"]}
+%form{action: "/photos", method: "post"}
+  .gallery
+    .spacer &nbsp;
+    - @photos.each do |photo|
+      .photo
+        %a{title: photo["caption"], href: photo["photo_link"]}<
+          %img{src: photo["thumb_link"], alt: photo["caption"]}
+    .spacer &nbsp;
+  %input.primary{type: "submit", value: "Copy!"}

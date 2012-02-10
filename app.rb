@@ -24,6 +24,8 @@ class App < Sinatra::Base
 
   register Sinatra::CssSupport
   serve_css '/stylesheets', from: "./app/css"
+  register Sinatra::JsSupport
+  serve_js '/js', from: "./app/js"
 
   configure do |m|
     m.set :scss, {
@@ -35,6 +37,18 @@ class App < Sinatra::Base
   couch = CouchRest.new(ENV['CLOUDANT_URL'])
   DB = couch.database('users')
   DB.create!
+
+  helpers do
+    def stylesheet(sheet)
+      fn = sheet.to_s + ".css"
+      "<link href=\"/stylesheets/#{fn}?#{css_mtime_for("app/css/#{fn}")}\" type=\"text/css\" rel=\"stylesheet\" />"
+    end
+
+    def script(js)
+      fn = js.to_s + ".js"
+      "<script src=\"/js/#{fn}?#{File.mtime("app/js/#{fn}").to_i}\"></script>"
+    end
+  end
 
   def skip_session
     request.session_options[:skip] = true
@@ -63,7 +77,8 @@ class App < Sinatra::Base
   get '/' do
     set_user
     if @user
-      @photos = make_client.get('/2/photos', member_id: 'self')["results"]
+      data = make_client.get('/2/photos', member_id: 'self')
+      @photos = data["results"]
     end
     haml :index, :format => :html5
   end
