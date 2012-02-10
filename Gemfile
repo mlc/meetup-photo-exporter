@@ -6,6 +6,8 @@ gem 'haml'
 gem 'sass'
 gem 'omniauth'
 gem 'omniauth-meetup'
+gem 'omniauth-flickr'
+gem 'omniauth-facebook'
 gem 'rdiscount'
 gem 'couchrest'
 gem 'sinatra-support', require: "sinatra/support"

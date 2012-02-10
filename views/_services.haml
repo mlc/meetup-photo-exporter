@@ -1,0 +1,13 @@
+- if @services.empty?
+  %p
+    You're not currently signed in with any photo-sharing services. Pick at least one that you'd like to copy your photos to.
+- else
+  %p
+    You're currently signed in with #{english_join(@services.keys.map{|k| "<strong>#{k.to_s}</strong>"})}.
+
+- unless @missing_services.empty?
+  %p#login_services
+    - @missing_services.each do |service|
+      %a{href: "/auth/#{service}"}<
+        %button.zocial{class: service}<
+          %span Connect to #{service.capitalize}

@@ -2,9 +2,9 @@
 :markdown
   This site will allow you to copy your photos out of Meetup into other photo-sharing services.
 - if @user
-  %p
-    & Logged in as <strong>#{@user["name"]}</strong>.
-    = haml(:_myphotos)
+  %p& Logged in as <strong>#{@user["name"]}</strong>.
+  = haml(:_services)
+  = haml(:_myphotos)
 - else
   %p<
     %a{href: "/auth/meetup"}<

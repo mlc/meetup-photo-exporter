@@ -20,15 +20,23 @@ GEM
     mime-types (1.17.2)
     multi_json (1.0.4)
     multipart-post (1.1.4)
+    oauth (0.4.5)
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
     omniauth (1.0.2)
       hashie (~> 1.2)
       rack
+    omniauth-facebook (1.2.0)
+      omniauth-oauth2 (~> 1.0.0)
+    omniauth-flickr (0.0.9)
+      omniauth-oauth (~> 1.0)
     omniauth-meetup (0.0.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
+    omniauth-oauth (1.0.0)
+      oauth
+      omniauth (~> 1.0)
     omniauth-oauth2 (1.0.0)
       oauth2 (~> 0.5.0)
       omniauth (~> 1.0)
@@ -68,6 +76,8 @@ DEPENDENCIES
   faraday_middleware
   haml
   omniauth
+  omniauth-facebook
+  omniauth-flickr
   omniauth-meetup
   rdiscount
   sass

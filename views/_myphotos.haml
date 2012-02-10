@@ -5,5 +5,6 @@
       .photo
         %a{title: photo["caption"], href: photo["photo_link"]}<
           %img{src: photo["thumb_link"], alt: photo["caption"]}
+        %input{type: 'checkbox', name: "photo_#{photo["photo_id"]}", value: 1}
     .spacer &nbsp;
   %input.primary{type: "submit", value: "Copy!"}

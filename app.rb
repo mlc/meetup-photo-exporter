@@ -20,6 +20,8 @@ class App < Sinatra::Base
   use Rack::Session::Cookie, :session => ENV['SESSION_SECRET']
   use OmniAuth::Builder do
     provider :meetup, ENV['MEETUP_KEY'], ENV['MEETUP_SECRET']
+    provider :flickr, ENV['FLICKR_KEY'], ENV['FLICKR_SECRET'], scope: 'write'
+    provider :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET'], scope: 'user_photos,publish_stream', display: 'page'
   end
 
   register Sinatra::CssSupport
@@ -38,6 +40,8 @@ class App < Sinatra::Base
   DB = couch.database('users')
   DB.create!
 
+  ALL_SERVICES = ["flickr", "facebook"]
+
   helpers do
     def stylesheet(sheet)
       fn = sheet.to_s + ".css"
@@ -47,6 +51,19 @@ class App < Sinatra::Base
     def script(js)
       fn = js.to_s + ".js"
       "<script src=\"/js/#{fn}?#{File.mtime("app/js/#{fn}").to_i}\"></script>"
+    end
+
+    def english_join(list)
+      case list.length
+        when 0
+          ""
+        when 1
+          list.first
+        when 2
+          "#{list.first} and #{list.last}"
+        else
+          list[0..-2].join(", ") + ", and #{list.last}"
+      end
     end
   end
 
@@ -71,6 +88,10 @@ class App < Sinatra::Base
       rescue
         @user = nil
       end
+    end
+    if @user
+      @services = @user["services"] || {}
+      @missing_services = ALL_SERVICES - @services.keys
     end
   end
 
@@ -98,7 +119,14 @@ class App < Sinatra::Base
   end
 
   get '/auth/:service/callback' do
-    # something useful
+    set_user
+    auth = request.env['omniauth.auth']
+    pp auth
+    @user["services"] ||= {}
+    @user["services"][params[:service]] = auth.credentials
+    DB.save_doc(@user)
+
+    redirect to('/')
   end
 
   private
