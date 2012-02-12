@@ -1,6 +1,6 @@
 source :rubygems
 gem 'thin'
-gem 'yajl-ruby'
+gem 'yajl-ruby', require: 'yajl'
 gem 'multi_json'
 gem 'sinatra', '=1.3.2', require: "sinatra/base"
 gem 'sinatra-contrib', require: "sinatra/reloader"
@@ -19,3 +19,4 @@ gem 'faraday_middleware'
 gem 'flickr_oauth'
 gem 'curb'
 gem 'dropbox-api'
+gem 'iron_worker'
