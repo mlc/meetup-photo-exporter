@@ -8,7 +8,7 @@ class Service::Facebook
     c.multipart_form_post = true
     # c.on_body {|data| $stderr.write(data) }
     c.http_post(Curl::PostField.file('source', photo),
-        Curl::PostField.content('name', caption)
+        Curl::PostField.content('name', caption || "Photo Copied from Meetup")
     )
   end
 end
