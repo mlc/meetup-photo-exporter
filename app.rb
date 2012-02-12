@@ -157,6 +157,7 @@ class App < Sinatra::Base
         worker.user = @user
         worker.services = services
         worker.photo_id = photo
+        worker.client_env = ENV.select{|k,v| k =~ /(KEY|SECRET)$/}
         worker.queue
       end
       flash[:message] = "Your photos will be copied momentarily."
